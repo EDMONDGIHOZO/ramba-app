@@ -1,0 +1,4 @@
+@import './base.css';
+.contents_wrapper {
+  @apply py-4 mt-5;
+}

@@ -1,0 +1,32 @@
+.modal_backdrop {
+    @apply fixed inset-0 bg-opacity-60 bg-gray-400 flex justify-center items-center;
+}
+
+.modal_header {
+    @apply flex justify-between items-center bg-gray-100 px-4 py-2;
+}
+
+.modal_title {
+    @apply font-bold text-xl capitalize;
+}
+
+.modal_wrapper {
+    @apply bg-gray-50 rounded-xl flex flex-col justify-between overflow-x-auto w-10/12 md:w-3/6;
+}
+
+.modal_body {
+    @apply p-4 flex flex-col gap-4;
+}
+
+.close_icon {
+    @apply h-5 w-5 text-gray-800 cursor-pointer hover:text-red-500;
+}
+
+.primary_button {
+    @apply bg-green-500 text-white py-2 px-6 rounded shadow-md hover:bg-green-700 font-bold;
+}
+
+.canvas_box {
+    @apply w-full h-24 rounded;
+    border: dashed #d3d3d3 2px;
+}
