@@ -13,7 +13,23 @@
         @on-close="closeModal"
     >
       <signing-box @update="(value) => updateAttendance(value)" title="Attendance"/>
+      <div v-if="attendance === 'Present'">
+        <signature-canvas/>
+      </div>
       <signing-box @update="(value) => updateGroupTherapy(value)" title="Group therapy"/>
+      <div v-if="group_therapy === 'Present'">
+        <signature-canvas/>
+      </div>
+      <location-pick @update="(value) => updateLocation(value)"/>
+      <div class="w-full flex justify-between items-center">
+        <h3 class="font-bold">Notes</h3>
+        <span class="text-gray-300 text-sm">100 words max</span>
+      </div>
+      <textarea v-model="notes"
+                name="note"
+                class="border rounded p-4"
+                @input="onInput"
+      />
       <div class="flex justify-end">
         <button
             class="primary_button"
@@ -31,15 +47,19 @@ import {defineComponent} from 'vue'
 import ModalWrapper from "@/components/features/ModalWrapper.vue";
 import moment from "moment";
 import SigningBox from "@/components/features/SigningBox.vue";
+import SignatureCanvas from "@/components/features/SignatureCanvas.vue";
+import LocationPick from "@/components/features/LocationPick.vue";
 
 export default defineComponent({
   name: 'viewRecord',
-  components: {SigningBox, ModalWrapper},
+  components: {LocationPick, SignatureCanvas, SigningBox, ModalWrapper},
   data() {
     return {
       addRecordOpen: false,
-      attendance: 'present',
-      group_therapy: 'present'
+      attendance: '',
+      group_therapy: '',
+      notes: '',
+      location: ''
     }
   },
   computed: {
@@ -47,6 +67,7 @@ export default defineComponent({
       return moment
     }
   },
+
   methods: {
     openAddingModel() {
       this.addRecordOpen = true
@@ -57,8 +78,23 @@ export default defineComponent({
     updateAttendance(value: string) {
       this.attendance = value
     },
+    updateLocation(value: string) {
+      this.location = value
+    },
     updateGroupTherapy(value: string) {
       this.group_therapy = value
+    },
+    onInput(event: any) {
+      const input = event.target as HTMLInputElement;
+      const words = input.value.trim().split(/\s+/);
+      if (words.length > 100) {
+        input.value = words.slice(0, 100).join(' ');
+        this.notes = input.value;
+        event.preventDefault();
+        alert('100 Words has exceeded!')
+      } else {
+        this.notes = input.value;
+      }
     }
   }
 })
